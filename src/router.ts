@@ -9,6 +9,7 @@ import ThreeDMap from "./components/ThreeDMap.vue";
 import ChangeBasemap from "./components/ChangeBasemap.vue";
 import AlertMap from "./components/AlertMap.vue";
 import VideoMap from "./components/VideoMap.vue";
+import SimpleStatisticsMap from "./components/SimpleStatisticsMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -21,6 +22,7 @@ const routes = [
   { path: "/changebasemap", component: ChangeBasemap },
   { path: "/alertmap", component: AlertMap },
   { path: "/videomap", component: VideoMap },
+  { path: "/simplestatisticsmap", component: SimpleStatisticsMap },
   // Add more routes for other pages
 ];
 
