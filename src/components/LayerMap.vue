@@ -13,12 +13,13 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Point from "@arcgis/core/geometry/Point";
+import LayerList from "@arcgis/core/widgets/LayerList";
 
 const mapdiv = ref();
 
 onMounted(() => {
   esriConfig.apiKey =
-    "AAPKcf332ae954ed41ea901d68daa179cb5538NZdMqVXnlzctrUZ7FaXZr9TwNk6-9DPgsmoShPq8unPMgIe0kJVc_5NMO9snmd";
+    "AAPK72621c47770b426798758730c48b8adeCpiJMaMF6zlMpNvLuvmd4H_yHgohLv9Jf0AAgDEbdZ1oVfvmLibxDgwZYfPgFIZf";
 
   const map = new Map({
     basemap: "arcgis/topographic",
@@ -148,6 +149,57 @@ onMounted(() => {
   });
 
   map.add(parksLayer, 0);
+
+  const graphicsLayer = new GraphicsLayer({ title: "Vehicle Trajectory" });
+  map.add(graphicsLayer);
+
+  // Create a line geometry
+  const polyline = {
+    type: "polyline",
+    paths: [
+      [110.328536, 1.548377], //Longitude, latitude
+      [110.338842, 1.546147], //Longitude, latitude
+      [110.345198, 1.547176], //Longitude, latitude
+      [110.354645, 1.550265], //Longitude, latitude
+      [110.366498, 1.552839], //Longitude, latitude
+    ],
+  };
+  const simpleLineSymbol = {
+    type: "simple-line",
+    color: [225, 0, 0], // Orange
+    width: 4,
+  };
+
+  const polylineGraphic = new Graphic({
+    geometry: polyline,
+    symbol: simpleLineSymbol,
+  });
+  graphicsLayer.add(polylineGraphic);
+
+  // Define a pop-up for Trailheads
+  const popupPoints = {
+    title: "{cctv_name}",
+    content: "<b>CCTV ID:</b> {cctv_id}<br><b>CCTV Address:</b> {cctv_address}",
+  };
+
+  const cctvLayer = new FeatureLayer({
+    // url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0",
+    portalItem: {
+      id: "8bace0177a0246139515f06b9b170685",
+    },
+    outFields: ["cctv_name", "cctv_id", "cctv_address"],
+    popupTemplate: popupPoints,
+  });
+
+  map.add(cctvLayer);
+
+  // Create a LayerList widget
+  const layerList = new LayerList({
+    view: view,
+  });
+
+  // Add the LayerList widget to the view
+  view.ui.add(layerList, "top-right");
 
   view.when(() => {
     console.log("view ready");

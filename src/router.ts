@@ -8,6 +8,7 @@ import OverlayMap from "./components/OverlayMap.vue";
 import ThreeDMap from "./components/ThreeDMap.vue";
 import ChangeBasemap from "./components/ChangeBasemap.vue";
 import AlertMap from "./components/AlertMap.vue";
+import VideoMap from "./components/VideoMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -19,6 +20,7 @@ const routes = [
   { path: "/threedmap", component: ThreeDMap },
   { path: "/changebasemap", component: ChangeBasemap },
   { path: "/alertmap", component: AlertMap },
+  { path: "/videomap", component: VideoMap },
   // Add more routes for other pages
 ];
 
