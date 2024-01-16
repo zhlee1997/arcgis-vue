@@ -14,25 +14,40 @@ import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Point from "@arcgis/core/geometry/Point";
 
-import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
-
-// import Renderer from "@arcgis/core/renderers/Renderer.js";
-// import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
-// import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol.js";
-
 const mapdiv = ref();
+
+function getRandomLatitude() {
+  // Define the latitude range for Sarawak
+  const minLatitude = 0.853;
+  const maxLatitude = 4.263;
+
+  // Generate a random latitude within the range
+  const randomLatitude =
+    Math.random() * (maxLatitude - minLatitude) + minLatitude;
+
+  // Return the random latitude
+  return randomLatitude;
+}
+
+function getRandomLongitude() {
+  // Define the latitude range for Sarawak
+  const minLatitude = 109.663;
+  const maxLatitude = 115.385;
+
+  // Generate a random latitude within the range
+  const randomLatitude =
+    Math.random() * (maxLatitude - minLatitude) + minLatitude;
+
+  // Return the random latitude
+  return randomLatitude;
+}
 
 onMounted(() => {
   esriConfig.apiKey =
     "AAPK72621c47770b426798758730c48b8adeCpiJMaMF6zlMpNvLuvmd4H_yHgohLv9Jf0AAgDEbdZ1oVfvmLibxDgwZYfPgFIZf";
 
-  const vtlLayer = new VectorTileLayer({
-    url: "https://vectortileservices3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_Mountains_Parcels_VTL/VectorTileServer/",
-  });
-
   const map = new Map({
     basemap: "arcgis/topographic",
-    layers: [vtlLayer],
   });
 
   const view = new MapView({
@@ -46,37 +61,6 @@ onMounted(() => {
   const popupPoints = {
     title: "{name}",
     content: "<b>Rating:</b> {rating}<br>",
-  };
-
-  // Marker icon rendering
-  const trailheadsRenderer = {
-    type: "simple",
-    symbol: {
-      type: "picture-marker",
-      url: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-      width: "18px",
-      height: "18px",
-    },
-  };
-
-  const trailheadsLabels = {
-    symbol: {
-      type: "text",
-      color: "#FFFFFF",
-      haloColor: "#5E8D74",
-      haloSize: "2px",
-      font: {
-        size: "12px",
-        family: "Noto Sans",
-        style: "italic",
-        weight: "normal",
-      },
-    },
-
-    labelPlacement: "above-center",
-    labelExpressionInfo: {
-      expression: "$feature.name",
-    },
   };
 
   //Trailheads feature layer (points)
@@ -99,20 +83,56 @@ onMounted(() => {
     longitude: -118.80657463861,
     latitude: 34.0005930608889,
   });
+
   const simpleMarkerSymbol = {
     type: "simple-marker",
-    color: [226, 119, 40], // Orange
+    color: [255, 0, 0], // Red
     outline: {
       color: [255, 255, 255], // White
       width: 1,
     },
   };
 
+  const template = {
+    title: "Alert Information",
+    content: "<p>Alert Content</p>",
+  };
+
   const pointGraphic = new Graphic({
     geometry: point,
     symbol: simpleMarkerSymbol,
+    popupTemplate: template,
   });
   graphicsLayer.add(pointGraphic);
+
+  setInterval(() => {
+    const point = new Point({
+      //Create a point
+      longitude: getRandomLongitude(),
+      latitude: getRandomLatitude(),
+    });
+
+    const simpleMarkerSymbol = {
+      type: "simple-marker",
+      color: [255, 0, 0], // Red
+      outline: {
+        color: [255, 255, 255], // White
+        width: 1,
+      },
+    };
+
+    const template = {
+      title: "Alert Information",
+      content: "<p>Alert Content</p>",
+    };
+
+    const pointGraphic = new Graphic({
+      geometry: point,
+      symbol: simpleMarkerSymbol,
+      popupTemplate: template,
+    });
+    graphicsLayer.add(pointGraphic);
+  }, 5000);
 
   view.when(() => {
     console.log("view ready");

@@ -7,6 +7,7 @@ import HeatMapGeoJSON from "./components/HeatMapGeoJSON.vue";
 import OverlayMap from "./components/OverlayMap.vue";
 import ThreeDMap from "./components/ThreeDMap.vue";
 import ChangeBasemap from "./components/ChangeBasemap.vue";
+import AlertMap from "./components/AlertMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -17,6 +18,7 @@ const routes = [
   { path: "/overlaymap", component: OverlayMap },
   { path: "/threedmap", component: ThreeDMap },
   { path: "/changebasemap", component: ChangeBasemap },
+  { path: "/alertmap", component: AlertMap },
   // Add more routes for other pages
 ];
 
