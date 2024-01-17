@@ -17,11 +17,22 @@ import Point from "@arcgis/core/geometry/Point";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar";
 import Legend from "@arcgis/core/widgets/Legend";
 
+import * as urlUtils from "@arcgis/core/core/urlUtils.js";
+
 const mapdiv = ref();
 
 onMounted(() => {
-  esriConfig.apiKey =
-    "AAPKcf332ae954ed41ea901d68daa179cb5538NZdMqVXnlzctrUZ7FaXZr9TwNk6-9DPgsmoShPq8unPMgIe0kJVc_5NMO9snmd";
+  //please add these 2 lines of code to by pass the credential checking
+  let proxyURL = "https://gisdevportal.tnt.sarawak.gov.my/proxy/proxy.ashx";
+  let urlPrefix =
+    "https://gisdevportal.tnt.sarawak.gov.my/arcgis/rest/services";
+
+  urlUtils.addProxyRule({
+    proxyUrl: proxyURL,
+    urlPrefix,
+  });
+  // esriConfig.apiKey =
+  //   "AAPKcf332ae954ed41ea901d68daa179cb5538NZdMqVXnlzctrUZ7FaXZr9TwNk6-9DPgsmoShPq8unPMgIe0kJVc_5NMO9snmd";
 
   const webmap = new WebMap({
     portalItem: {
@@ -44,12 +55,20 @@ onMounted(() => {
   });
   view.ui.add(legend, "top-right");
 
+  // Define a pop-up for Trailheads
+  const popupTemplate = {
+    title: "{device_name}",
+    content: "<b>Council:</b> {device_council}<br>",
+  };
+
   //Trailheads feature layer (points)
-  const trailheadsLayer = new FeatureLayer({
-    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0",
+  const cctvLayer = new FeatureLayer({
+    url: "https://gisdevportal.tnt.sarawak.gov.my/arcgis/rest/services/sioc/sioc_cctv/FeatureServer/0",
+    outFields: ["device_name", "device_council"],
+    popupTemplate: popupTemplate,
   });
 
-  // map.add(trailheadsLayer);
+  webmap.add(cctvLayer);
 
   // const graphicsLayer = new GraphicsLayer();
   // map.add(graphicsLayer);

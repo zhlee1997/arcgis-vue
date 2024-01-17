@@ -1,0 +1,178 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>
+        Intro to graphics | Sample | ArcGIS Maps SDK for JavaScript 4.25
+    </title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://jsdev.arcgis.com/4.26/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer"
+        ], (Map, MapView, Graphic, GraphicsLayer) => {
+            const graphicsLayer = new GraphicsLayer();
+
+            const polygonGraphicsLayer = new GraphicsLayer();
+            const map = new Map({
+                basemap: "hybrid",
+                layers: [polygonGraphicsLayer, graphicsLayer]
+            });
+
+            const view = new MapView({
+                center: [-80, 35],
+                container: "viewDiv",
+                map: map,
+                zoom: 3
+            });
+
+            const contextMenu = document.getElementById("contextMenu");
+            view.on("click", (event) => {
+                const opts = {
+                    include: polygonGraphicsLayer
+                };
+                view.hitTest(event, opts).then(function (response) {
+
+                    if (response.results?.length > 0) {
+                        console.log("here", response.results[0]);
+
+                        layerView.queryGraphics().then((results) => {
+                            console.log(results);
+
+                            results.items.forEach((item) => {
+                                if (item.attributes.district === response.results[0].graphic.attributes.district)
+                                    item.visible = item.visible ? false : true;
+                            });
+                        });
+                    }
+                });
+            });
+
+
+            // First create a point geometry (this is the location of the Titanic)
+            const point = {
+                type: "point", // autocasts as new Point()
+                longitude: -88.97,
+                latitude: 41.73
+            };
+
+            // Create a symbol for drawing the point
+            const markerSymbol = {
+                type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
+                color: [226, 119, 40],
+                outline: {
+                    // autocasts as new SimpleLineSymbol()
+                    color: [255, 255, 255],
+                    width: 2
+                }
+            };
+
+            // Create a graphic and add the geometry and symbol to it
+            const pointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbol,
+                attributes: {
+                    district: "districtA"
+                }
+            });
+
+
+            const point2 = {
+                type: "point", // autocasts as new Point()
+                longitude: -111.97,
+                latitude: 30.73
+            };
+
+            const pointGraphic2 = new Graphic({
+                geometry: point2,
+                symbol: markerSymbol,
+                attributes: {
+                    district: "districtB"
+                }
+            });
+
+
+            // Add the graphics to the view's graphics layer
+            graphicsLayer.addMany([pointGraphic, pointGraphic2]);
+
+            const polygon = {
+                type: "polygon", // autocasts as new Polygon()
+                rings: [
+                    [-88.78, 48.3],
+                    [-100.07, 35.45],
+                    [-80.21, 25.78],
+                    [-88.78, 48.3]
+                ]
+            };
+
+            // Create a symbol for rendering the graphic
+            const fillSymbol = {
+                type: "simple-fill", // autocasts as new SimpleFillSymbol()
+                color: [110, 139, 79, 0.2],
+                outline: {
+                    // autocasts as new SimpleLineSymbol()
+                    color: [255, 255, 255],
+                    width: 1
+                }
+            };
+
+            // Add the geometry and symbol to a new graphic
+            const polygonGraphic = new Graphic({
+                geometry: polygon,
+                symbol: fillSymbol,
+                attributes: {
+                    district: "districtA"
+                }
+            });
+
+            const polygon2 = {
+                type: "polygon", // autocasts as new Polygon()
+                rings: [
+                    [-120.78, 25.3],
+                    [-105.07, 45.45],
+                    [-100.21, 30.78],
+                    [-120.78, 25.3]
+                ]
+            };
+
+            // Add the geometry and symbol to a new graphic
+            const polygonGraphic2 = new Graphic({
+                geometry: polygon2,
+                symbol: fillSymbol,
+                attributes: {
+                    district: "districtB"
+                }
+            });
+
+            polygonGraphicsLayer.addMany([polygonGraphic, polygonGraphic2])
+
+            let layerView;
+            view.whenLayerView(graphicsLayer).then((lv) => {
+                layerView = lv;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+
+</html>
