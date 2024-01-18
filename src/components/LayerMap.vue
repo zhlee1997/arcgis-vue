@@ -1,5 +1,6 @@
 <template>
   <div class="mapdiv" ref="mapdiv"></div>
+  <div id="layerListToggle">Toggle LayerList</div>
 </template>
 
 <script lang="ts" setup>
@@ -28,7 +29,7 @@ onMounted(() => {
   const view = new MapView({
     container: mapdiv.value,
     map: map,
-    center: [-118.805, 34.027], //Longitude, latitude
+    center: [110.344728, 1.556662], //Longitude, latitude
     zoom: 13,
   });
 
@@ -159,15 +160,17 @@ onMounted(() => {
     paths: [
       [110.328536, 1.548377], //Longitude, latitude
       [110.338842, 1.546147], //Longitude, latitude
-      [110.345198, 1.547176], //Longitude, latitude
-      [110.354645, 1.550265], //Longitude, latitude
-      [110.366498, 1.552839], //Longitude, latitude
+      [110.343815, 1.557575], //Longitude, latitude
+      [110.347925, 1.555725], //Longitude, latitude
+      [110.351854, 1.547649], //Longitude, latitude
+      [110.358639, 1.530446], //Longitude, latitude
     ],
   };
+
   const simpleLineSymbol = {
     type: "simple-line",
     color: [225, 0, 0], // Orange
-    width: 4,
+    width: 3,
   };
 
   const polylineGraphic = new Graphic({
@@ -175,6 +178,168 @@ onMounted(() => {
     symbol: simpleLineSymbol,
   });
   graphicsLayer.add(polylineGraphic);
+
+  let textSymbol1 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "1",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  let textSymbol2 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "2",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  let textSymbol3 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "3",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  let textSymbol4 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "4",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  let textSymbol5 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "5",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  let textSymbol6 = {
+    type: "text", // autocasts as new TextSymbol()
+    color: "white",
+    text: "6",
+    backgroundColor: [255, 0, 0],
+    borderLineColor: [255, 0, 0],
+    font: {
+      // autocasts as new Font()
+      size: 12,
+      weight: "bold",
+    },
+  };
+
+  const point = new Point({
+    //Create a point
+    longitude: 110.328536,
+    latitude: 1.548377,
+  });
+
+  const point2 = new Point({
+    //Create a point
+    longitude: 110.338842,
+    latitude: 1.546147,
+  });
+
+  const point3 = new Point({
+    //Create a point
+    longitude: 110.343815,
+    latitude: 1.557575,
+  });
+
+  const point4 = new Point({
+    //Create a point
+    longitude: 110.347925,
+    latitude: 1.555725,
+  });
+
+  const point5 = new Point({
+    //Create a point
+    longitude: 110.351854,
+    latitude: 1.547649,
+  });
+
+  const point6 = new Point({
+    //Create a point
+    longitude: 110.358639,
+    latitude: 1.530446,
+  });
+
+  const simpleMarkerSymbol = {
+    type: "simple-marker",
+    color: [226, 119, 40], // Orange
+    outline: {
+      color: [255, 255, 255], // White
+      width: 1,
+    },
+  };
+
+  const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: textSymbol1,
+  });
+
+  const pointGraphic2 = new Graphic({
+    geometry: point2,
+    symbol: textSymbol2,
+  });
+
+  const pointGraphic3 = new Graphic({
+    geometry: point3,
+    symbol: textSymbol3,
+  });
+
+  const pointGraphic4 = new Graphic({
+    geometry: point4,
+    symbol: textSymbol4,
+  });
+
+  const pointGraphic5 = new Graphic({
+    geometry: point5,
+    symbol: textSymbol5,
+  });
+
+  const pointGraphic6 = new Graphic({
+    geometry: point6,
+    symbol: textSymbol6,
+  });
+
+  graphicsLayer.addMany([
+    pointGraphic,
+    pointGraphic2,
+    pointGraphic3,
+    pointGraphic4,
+    pointGraphic5,
+    pointGraphic6,
+  ]);
 
   // Define a pop-up for Trailheads
   const popupPoints = {
@@ -201,6 +366,16 @@ onMounted(() => {
   // Add the LayerList widget to the view
   view.ui.add(layerList, "top-right");
 
+  // Toggle button to hide/show LayerList
+  var layerListToggle = document.getElementById("layerListToggle");
+  layerListToggle.addEventListener("click", function () {
+    if (layerList.visible) {
+      layerList.visible = false;
+    } else {
+      layerList.visible = true;
+    }
+  });
+
   view.when(() => {
     console.log("view ready");
   });
@@ -212,5 +387,15 @@ onMounted(() => {
   padding: 0;
   margin: 0;
   height: 100vh;
+}
+#layerListToggle {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  background-color: #fff;
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 </style>

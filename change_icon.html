@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://js.arcgis.com/4.24/esri/themes/light/main.css">
+	<script src="https://js.arcgis.com/4.24/"></script>
+	<script>
+			require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/FeatureLayer", "esri/widgets/Legend", "esri/widgets/BasemapGallery", "esri/widgets/BasemapLayerList", "esri/widgets/Measurement", "esri/widgets/Expand", "esri/widgets/Search", "esri/core/urlUtils","esri/symbols/CIMSymbol"], function (esriConfig, Map, MapView, FeatureLayer, Legend, BasemapGallery
+            , LayerList, Measurement, Expand, Search, urlUtils, CIMSymbol) {
+				
+				var indexOfRules = urlUtils.addProxyRule({
+					urlPrefix: "https://gisdevportal.tnt.sarawak.gov.my/arcgis/rest/services", //remove this statement will show login dialog.
+					proxyUrl: "https://gisdevportal.tnt.sarawak.gov.my/proxy/proxy.ashx",
+				});
+				
+				esriConfig.apiKey = "AAPK483d8d46bb694d3e832547061936a20cpMqUs_ChHkRU8cNjWRTA20839uZK4mOgmKByeVuZKTuPM_RnGbo4EMivgbROOeKV";
+				
+				const map = new Map({
+				  basemap: "topo-vector",
+				});
+				
+				const view = new MapView({
+					map: map,
+					center: [110, 1.7],
+					zoom: 10,
+					container: "viewDiv"
+				});
+				
+				const cctvRenderer = {
+					"type": "simple",
+					"symbol": {
+					  "type": "picture-marker",
+					  "url": "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+					  "width": "30px",
+					  "height": "30px"
+					}
+				};
+				
+				const layer = new FeatureLayer({
+					url: "https://gisdevportal.tnt.sarawak.gov.my/arcgis/rest/services/sioc/sioc_cctv/FeatureServer/0",
+					renderer: cctvRenderer,
+				});
+				  
+				map.add(layer);
+			});
+	</script>
+	<style>
+  html,
+  body,
+  #viewDiv {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+  }
+</style>
+</head>
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>

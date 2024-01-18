@@ -10,6 +10,7 @@ import ChangeBasemap from "./components/ChangeBasemap.vue";
 import AlertMap from "./components/AlertMap.vue";
 import VideoMap from "./components/VideoMap.vue";
 import SimpleStatisticsMap from "./components/SimpleStatisticsMap.vue";
+import SingleHighlightMap from "./components/SingleHighlightMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -23,6 +24,7 @@ const routes = [
   { path: "/alertmap", component: AlertMap },
   { path: "/videomap", component: VideoMap },
   { path: "/simplestatisticsmap", component: SimpleStatisticsMap },
+  { path: "/singlehiglightmap", component: SingleHighlightMap },
   // Add more routes for other pages
 ];
 

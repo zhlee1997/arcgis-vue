@@ -16,10 +16,6 @@ import Point from "@arcgis/core/geometry/Point";
 
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 
-// import Renderer from "@arcgis/core/renderers/Renderer.js";
-// import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
-// import PictureMarkerSymbol from "@arcgis/core/symbols/PictureMarkerSymbol.js";
-
 const mapdiv = ref();
 
 onMounted(() => {
@@ -38,8 +34,8 @@ onMounted(() => {
   const view = new MapView({
     container: mapdiv.value,
     map: map,
-    center: [-118.805, 34.027], //Longitude, latitude
-    zoom: 13,
+    center: [110.358639, 1.530446], //Longitude, latitude
+    zoom: 12,
   });
 
   // Define a pop-up for Trailheads
@@ -53,9 +49,9 @@ onMounted(() => {
     type: "simple",
     symbol: {
       type: "picture-marker",
-      url: "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
-      width: "18px",
-      height: "18px",
+      url: "https://image.shutterstock.com/image-vector/black-icon-illustration-cctv-camera-260nw-628040864.jpg",
+      width: "30px",
+      height: "30px",
     },
   };
 
@@ -85,6 +81,7 @@ onMounted(() => {
     portalItem: {
       id: "8ffdd4b9cbeb4ed8bba91d05e2b4fbbe",
     },
+    renderer: trailheadsRenderer,
     outFields: ["name", "rating"],
     popupTemplate: popupPoints,
   });
