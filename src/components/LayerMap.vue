@@ -3,7 +3,7 @@
   <div id="infoDiv" class="esri-widget">
     <div id="layerListDiv"></div>
   </div>
-  <div id="layerListToggle">Toggle LayerList</div>
+  <!-- <div id="layerListToggle">Toggle LayerList</div> -->
 </template>
 
 <script lang="ts" setup>
