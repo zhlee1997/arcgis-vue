@@ -11,6 +11,8 @@ import AlertMap from "./components/AlertMap.vue";
 import VideoMap from "./components/VideoMap.vue";
 import SimpleStatisticsMap from "./components/SimpleStatisticsMap.vue";
 import SingleHighlightMap from "./components/SingleHighlightMap.vue";
+import WeatherPointMapJSON from "./components/WeatherPointMapJSON.vue";
+import ClusteringMarkerMap from "./components/ClusteringMarkerMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -25,6 +27,8 @@ const routes = [
   { path: "/videomap", component: VideoMap },
   { path: "/simplestatisticsmap", component: SimpleStatisticsMap },
   { path: "/singlehiglightmap", component: SingleHighlightMap },
+  { path: "/weatherpointmapjson", component: WeatherPointMapJSON },
+  { path: "/clusteringmarkermap", component: ClusteringMarkerMap },
   // Add more routes for other pages
 ];
 
