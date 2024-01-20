@@ -1,5 +1,8 @@
 <template>
   <div class="mapdiv" ref="mapdiv"></div>
+  <div id="infoDiv" class="esri-widget">
+    <div id="layerListDiv"></div>
+  </div>
   <div id="layerListToggle">Toggle LayerList</div>
 </template>
 
@@ -15,6 +18,7 @@ import Graphic from "@arcgis/core/Graphic";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Point from "@arcgis/core/geometry/Point";
 import LayerList from "@arcgis/core/widgets/LayerList";
+import Expand from "@arcgis/core/widgets/Expand";
 
 const mapdiv = ref();
 
@@ -361,10 +365,23 @@ onMounted(() => {
   // Create a LayerList widget
   const layerList = new LayerList({
     view: view,
+    container: "layerListDiv",
   });
 
   // Add the LayerList widget to the view
-  view.ui.add(layerList, "top-right");
+  // view.ui.add(layerList, "top-right");
+
+  const infoDiv = document.getElementById("infoDiv");
+  view.ui.add(
+    new Expand({
+      expandIcon: "layers",
+      view: view,
+      content: infoDiv,
+      expandIconClass: "esri-icon-layer-list",
+      expanded: false,
+    }),
+    "top-left"
+  );
 
   // Toggle button to hide/show LayerList
   var layerListToggle = document.getElementById("layerListToggle");
