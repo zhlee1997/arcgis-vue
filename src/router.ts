@@ -13,6 +13,8 @@ import SimpleStatisticsMap from "./components/SimpleStatisticsMap.vue";
 import SingleHighlightMap from "./components/SingleHighlightMap.vue";
 import WeatherPointMapJSON from "./components/WeatherPointMapJSON.vue";
 import ClusteringMarkerMap from "./components/ClusteringMarkerMap.vue";
+import AdminMap from "./components/AdminMap.vue";
+import SpatialQueryMap from "./components/SpatialQueryMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -29,6 +31,8 @@ const routes = [
   { path: "/singlehiglightmap", component: SingleHighlightMap },
   { path: "/weatherpointmapjson", component: WeatherPointMapJSON },
   { path: "/clusteringmarkermap", component: ClusteringMarkerMap },
+  { path: "/adminmap", component: AdminMap },
+  { path: "/spatialquerymap", component: SpatialQueryMap },
   // Add more routes for other pages
 ];
 
