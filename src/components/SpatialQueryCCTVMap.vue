@@ -37,7 +37,7 @@ onMounted(() => {
   const view = new MapView({
     container: mapdiv.value,
     map: map,
-    center: [-118.80543, 34.03], //Longitude, latitude
+    center: [110.358639, 1.530446], //Longitude, latitude
     zoom: 12,
   });
 
@@ -75,14 +75,16 @@ onMounted(() => {
 
   // Reference query layer
   const parcelLayer = new FeatureLayer({
-    url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/LA_County_Parcels/FeatureServer/0",
+    url: "https://services7.arcgis.com/jSIZ4REzVWEnNWX4/arcgis/rest/services/sioc_cctv_list/FeatureServer/0",
   });
+
+  map.add(parcelLayer);
 
   function queryFeaturelayer(geometry) {
     const parcelQuery = {
       spatialRelationship: "intersects", // Relationship operation to apply
       geometry: geometry, // The sketch feature geometry
-      outFields: ["APN", "UseType", "TaxRateCity", "Roll_LandValue"], // Attributes to return
+      outFields: ["DEVICE_NAME"], // Attributes to return
       returnGeometry: true,
     };
 
@@ -102,18 +104,17 @@ onMounted(() => {
   function displayResults(results) {
     // Create a blue polygon
     const symbol = {
-      type: "simple-fill",
-      color: [20, 130, 200, 0.5],
+      type: "simple-marker",
+      color: [226, 119, 40], // Orange
       outline: {
-        color: "white",
-        width: 0.5,
+        color: [255, 255, 255], // White
+        width: 1,
       },
     };
 
     const popupTemplate = {
-      title: "Parcel {APN}",
-      content:
-        "Type: {UseType} <br> Land value: {Roll_LandValue} <br> Tax Rate City: {TaxRateCity}",
+      title: "CCTV",
+      content: "CCTV NAME: {DEVICE_NAME} <br>",
     };
 
     // Set symbol and popup
@@ -129,21 +130,6 @@ onMounted(() => {
     // Add features to graphics layer
     view.graphics.addMany(results.features);
   }
-
-  // Define a pop-up for Trailheads
-  const popupPoints = {
-    title: "{name}",
-    content: "<b>Rating:</b> {rating}<br>",
-  };
-
-  //Trailheads feature layer (points)
-  const adminLayer = new FeatureLayer({
-    url: "https://gisdevportal.tnt.sarawak.gov.my/arcgis/rest/services/sioc/Local_Council_Boundary/FeatureServer/0",
-    // outFields: ["name", "rating"],
-    // popupTemplate: popupPoints,
-  });
-
-  map.add(adminLayer);
 
   view.when(() => {
     console.log("view ready");

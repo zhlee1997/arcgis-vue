@@ -15,6 +15,7 @@ import WeatherPointMapJSON from "./components/WeatherPointMapJSON.vue";
 import ClusteringMarkerMap from "./components/ClusteringMarkerMap.vue";
 import AdminMap from "./components/AdminMap.vue";
 import SpatialQueryMap from "./components/SpatialQueryMap.vue";
+import SpatialQueryCCTVMap from "./components/SpatialQueryCCTVMap.vue";
 
 const routes = [
   { path: "/", component: Map },
@@ -33,6 +34,7 @@ const routes = [
   { path: "/clusteringmarkermap", component: ClusteringMarkerMap },
   { path: "/adminmap", component: AdminMap },
   { path: "/spatialquerymap", component: SpatialQueryMap },
+  { path: "/spatialquerycctvmap", component: SpatialQueryCCTVMap },
   // Add more routes for other pages
 ];
 
